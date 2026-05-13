@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euexia - Platforma Sportive</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#111827;
+}
+
+:root{
+  --primary:#2563eb;
+  --dark:#1d4ed8;
+  --light:#eff6ff;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+nav{
+  background:white;
+  padding:16px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:0;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:bold;
+  color:var(--primary);
+}
+
+.nav-links{
+  display:flex;
+  gap:20px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#374151;
+  font-weight:600;
+}
+
+.nav-links a:hover{
+  color:var(--primary);
+}
+
+.nav-buttons{
+  display:flex;
+  gap:10px;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+}
+
+.btn{
+  padding:10px 18px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-primary:hover{
+  background:var(--dark);
+}
+
+.btn-light{
+  background:#e5e7eb;
+}
+
+.hero{
+  height:600px;
+  background:url('https://images.unsplash.com/photo-1547347298-4074fc3086f0?fit=crop&w=1400&q=80') center/cover;
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  color:white;
+  max-width:700px;
+  padding:60px;
+}
+
+.hero-content h1{
+  font-size:58px;
+  margin-bottom:20px;
+}
+
+.hero-content p{
+  font-size:20px;
+  line-height:1.7;
+  margin-bottom:30px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:14px;
+}
+
+.hero-btn{
+  padding:14px 24px;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.hero-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.hero-outline{
+  background:transparent;
+  color:white;
+  border:2px solid white;
+}
+
+.section{
+  padding:80px 40px;
+}
+
+.section-title{
+  text-align:center;
+  font-size:40px;
+  margin-bottom:50px;
+}
+
+.about-box{
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+}
+
+.about-box p{
+  margin-top:20px;
+  line-height:1.9;
+  color:#4b5563;
+  font-size:18px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-top:40px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  text-align:center;
+}
+
+.card h2{
+  color:var(--primary);
+  font-size:42px;
+}
+
+.community-layout{
+  display:grid;
+  grid-template-columns:250px 1fr;
+  gap:24px;
+  padding:40px;
+}
+
+.sidebar{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  height:fit-content;
+}
+
+.filter-btn{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:8px;
+  background:#f3f4f6;
+}
+
+.filter-btn.active{
+  background:var(--primary);
+  color:white;
+}
+
+.feed{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.feed-post{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.feed-post-inner{
+  padding:24px;
+}
+
+.author{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.author-left{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.avatar{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:var(--light);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+  color:var(--primary);
+}
+
+.post-sport{
+  background:var(--light);
+  color:var(--primary);
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.feed-post-title{
+  margin:16px 0;
+  font-size:26px;
+  font-weight:bold;
+}
+
+.feed-post-footer{
+  padding:16px 24px;
+  background:#f9fafb;
+  border-top:1px solid #eee;
+}
+
+.form-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px;
+}
+
+.form-card{
+  width:100%;
+  max-width:500px;
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.form-header{
+  padding:30px;
+  text-align:center;
+}
+
+.form-header h1{
+  color:var(--primary);
+}
+
+.form-body{
+  padding:30px;
+}
+
+.form-group{
+  margin-bottom:18px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+}
+
+.success{
+  margin-top:16px;
+  padding:12px;
+  background:#dcfce7;
+  color:#166534;
+  border-radius:8px;
+  display:none;
+}
+
+.success.show{
+  display:block;
+}
+
+footer{
+  background:#111827;
+  color:white;
+  text-align:center;
+  padding:30px;
+}
+
+@media(max-width:768px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .community-layout{
+    grid-template-columns:1fr;
+  }
+
+  .hero-content h1{
+    font-size:42px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">Euexia</div>
+
+<div class="nav-links">
+<a href="#" onclick="showPage('home')">Ballina</a>
+<a href="#" onclick="showPage('community')">Komuniteti</a>
+<a href="#" onclick="showPage('contact')">Kontakt</a>
+</div>
+
+<div class="nav-buttons">
+<button class="btn btn-light" onclick="showPage('login')">Kyçu</button>
+<button class="btn btn-primary" onclick="showPage('register')">Regjistrohu</button>
+</div>
+
+</nav>
+
+<!-- HOME -->
+
+<div id="page-home" class="page active">
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Platforma sportive për studentë</h1>
+
+<p>
+Euexia është një platformë moderne ku sportistët mund të krijojnë profile,
+të publikojnë arritje sportive dhe të lidhen me komunitetin.
+</p>
+
+<div class="hero-buttons">
+
+<button class="hero-btn hero-primary" onclick="showPage('register')">
+Regjistrohu
+</button>
+
+<button class="hero-btn hero-outline" onclick="showPage('community')">
+Komuniteti
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">Çfarë është Euexia?</h2>
+
+<div class="about-box">
+
+<p>
+Euexia është një rrjet social sportiv për studentë dhe të rinj.
+Këtu mund të postosh fitoret e tua, rekordet personale,
+fotot nga ndeshjet dhe të lidhesh me sportistë të tjerë.
+</p>
+
+<p>
+Platforma është krijuar për të motivuar të rinjtë
+që të ndajnë eksperiencat sportive dhe të ndërtojnë
+një komunitet aktiv.
+</p>
+
+</div>
+
+<div class="stats">
+
+<div class="card">
+<h2>120+</h2>
+<p>Atletë</p>
+</div>
+
+<div class="card">
+<h2>350+</h2>
+<p>Postime</p>
+</div>
+
+<div class="card">
+<h2>800+</h2>
+<p>Pëlqime</p>
+</div>
+
+<div class="card">
+<h2>14</h2>
+<p>Sporte</p>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Euexia - Të gjitha të drejtat e rezervuara
+</footer>
+
+</div>
+
+<!-- COMMUNITY -->
+
+<div id="page-community" class="page">
+
+<div class="community-layout">
+
+<div class="sidebar">
+
+<h3>Filtro Sportin</h3>
+
+<button class="filter-btn active" onclick="filterSport(this,'all')">
+Të gjitha
+</button>
+
+<button class="filter-btn" onclick="filterSport(this,'Futboll')">
+Futboll
+</button>
+
+<button class="filter-btn" onclick="filterSport(this,'Basketboll')">
+Basketboll
+</button>
+
+<button class="filter-btn" onclick="filterSport(this,'Volejboll')">
+Volejboll
+</button>
+
+<button class="filter-btn" onclick="filterSport(this,'Notim')">
+Notim
+</button>
+
+</div>
+
+<div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+
+<div>
+<h1>Komuniteti</h1>
+<p>Postimet më të fundit</p>
+</div>
+
+<button class="btn btn-primary" onclick="showPostForm()">
+Krijo Postim
+</button>
+
+</div>
+
+<!-- FORM -->
+
+<div id="post-form" style="display:none;margin-bottom:20px;">
+
+<div class="form-card">
+
+<div class="form-body">
+
+<div class="form-group">
+<label>Titulli</label>
+<input type="text" id="post-title">
+</div>
+
+<div class="form-group">
+<label>Përmbajtja</label>
+<textarea id="post-content"></textarea>
+</div>
+
+<div class="form-group">
+
+<label>Sporti</label>
+
+<select id="post-sport">
+<option>Futboll</option>
+<option>Basketboll</option>
+<option>Volejboll</option>
+<option>Tenis</option>
+<option>Not</option>
+<option>Boks</option>
+<option>Gjimastikë</option>
+<option>Tjetër</option>
+</select>
+
+</div>
+
+<button class="btn btn-primary" onclick="addPost()">
+Posto
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- POSTS -->
+
+<div class="feed" id="community-feed">
+
+<div class="feed-post" data-sport="Basketboll">
+
+<div class="feed-post-inner">
+
+<div class="author">
+
+<div class="author-left">
+
+<div class="avatar">K</div>
+
+<div>
+<h4>Klea Hoxha</h4>
+<p>12 Maj 2026</p>
+</div>
+
+</div>
+
+<span class="post-sport">Basketboll</span>
+
+</div>
+
+<div class="feed-post-title">
+Finalja e turneut universitar 🏀
+</div>
+
+<p>
+Sot luajtëm finalen më emocionuese të sezonit.
+Atmosfera ishte fantastike!
+</p>
+
+</div>
+
+<div class="feed-post-footer">
+34 Pëlqime • 6 Komente
+</div>
+
+</div>
+
+<div class="feed-post" data-sport="Volejboll">
+
+<div class="feed-post-inner">
+
+<div class="author">
+
+<div class="author-left">
+
+<div class="avatar">A</div>
+
+<div>
+<h4>Arta Krasniqi</h4>
+<p>13 Maj 2026</p>
+</div>
+
+</div>
+
+<span class="post-sport">Volejboll</span>
+
+</div>
+
+<div class="feed-post-title">
+Fitore e madhe në kampionat 🏐
+</div>
+
+<p>
+Ekipi ynë fitoi 3-1 dhe atmosfera në palestër ishte elektrizuese.
+</p>
+
+</div>
+
+<div class="feed-post-footer">
+19 Pëlqime • 2 Komente
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Euexia
+</footer>
+
+</div>
+
+<!-- REGISTER -->
+
+<div id="page-register" class="page">
+
+<div class="form-page">
+
+<div class="form-card">
+
+<div class="form-header">
+<h1>Regjistrohu</h1>
+</div>
+
+<div class="form-body">
+
+<div class="form-group">
+<label>Emri</label>
+<input type="text" id="reg-name">
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="reg-email">
+</div>
+
+<div class="form-group">
+<label>Fjalëkalimi</label>
+<input type="password" id="reg-pass">
+</div>
+
+<button class="btn btn-primary" onclick="handleRegister()">
+Regjistrohu
+</button>
+
+<div class="success" id="reg-success">
+Regjistrimi u krye me sukses!
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOGIN -->
+
+<div id="page-login" class="page">
+
+<div class="form-page">
+
+<div class="form-card">
+
+<div class="form-header">
+<h1>Kyçu</h1>
+</div>
+
+<div class="form-body">
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="login-email">
+</div>
+
+<div class="form-group">
+<label>Fjalëkalimi</label>
+<input type="password" id="login-pass">
+</div>
+
+<button class="btn btn-primary" onclick="handleLogin()">
+Kyçu
+</button>
+
+<div class="success" id="login-success">
+U kyçe me sukses!
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CONTACT -->
+
+<div id="page-contact" class="page">
+
+<div class="form-page">
+
+<div class="form-card">
+
+<div class="form-header">
+<h1>Na Kontakto</h1>
+</div>
+
+<div class="form-body">
+
+<div class="form-group">
+<label>Emri</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email">
+</div>
+
+<div class="form-group">
+<label>Mesazhi</label>
+<textarea></textarea>
+</div>
+
+<button class="btn btn-primary">
+Dërgo
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function showPage(name){
+
+  document.querySelectorAll('.page').forEach(page=>{
+    page.classList.remove('active');
+  });
+
+  document.getElementById('page-' + name).classList.add('active');
+
+  window.scrollTo(0,0);
+
+}
+
+function filterSport(btn,sport){
+
+  document.querySelectorAll('.filter-btn').forEach(button=>{
+    button.classList.remove('active');
+  });
+
+  btn.classList.add('active');
+
+  document.querySelectorAll('.feed-post').forEach(post=>{
+
+    if(sport === 'all' || post.dataset.sport === sport){
+      post.style.display='block';
+    }else{
+      post.style.display='none';
+    }
+
+  });
+
+}
+
+function handleRegister(){
+
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pass=document.getElementById('reg-pass').value.trim();
+
+  if(!name || !email || !pass){
+
+    alert('Plotëso të gjitha fushat');
+    return;
+
+  }
+
+  const users=JSON.parse(localStorage.getItem('users') || '[]');
+
+  const exists=users.find(u=>u.email===email);
+
+  if(exists){
+
+    alert('Ky email ekziston');
+    return;
+
+  }
+
+  const user={
+    name,
+    email,
+    pass
+  };
+
+  users.push(user);
+
+  localStorage.setItem('users',JSON.stringify(users));
+
+  localStorage.setItem('loggedUser',JSON.stringify(user));
+
+  document.getElementById('reg-success').classList.add('show');
+
+  setTimeout(()=>{
+    showPage('community');
+  },1500);
+
+}
+
+function handleLogin(){
+
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value.trim();
+
+  const users=JSON.parse(localStorage.getItem('users') || '[]');
+
+  const user=users.find(u=>u.email===email && u.pass===pass);
+
+  if(user){
+
+    localStorage.setItem('loggedUser',JSON.stringify(user));
+
+    document.getElementById('login-success').classList.add('show');
+
+    setTimeout(()=>{
+      showPage('community');
+    },1500);
+
+  }else{
+
+    alert('Email ose fjalëkalim gabim');
+
+  }
+
+}
+
+function showPostForm(){
+
+  const form=document.getElementById('post-form');
+
+  if(form.style.display==='none'){
+    form.style.display='block';
+  }else{
+    form.style.display='none';
+  }
+
+}
+
+function addPost(){
+
+  const title=document.getElementById('post-title').value.trim();
+  const content=document.getElementById('post-content').value.trim();
+  const sport=document.getElementById('post-sport').value;
+
+  if(!title || !content){
+
+    alert('Plotëso të gjitha fushat');
+    return;
+
+  }
+
+  const loggedUser=JSON.parse(localStorage.getItem('loggedUser'));
+
+  if(!loggedUser){
+
+    alert('Duhet të kyçesh fillimisht');
+    return;
+
+  }
+
+  const feed=document.getElementById('community-feed');
+
+  const html=`
+
+  <div class="feed-post" data-sport="${sport}">
+
+    <div class="feed-post-inner">
+
+      <div class="author">
+
+        <div class="author-left">
+
+          <div class="avatar">
+            ${loggedUser.name.charAt(0)}
+          </div>
+
+          <div>
+            <h4>${loggedUser.name}</h4>
+            <p>${new Date().toLocaleDateString()}</p>
+          </div>
+
+        </div>
+
+        <span class="post-sport">${sport}</span>
+
+      </div>
+
+      <div class="feed-post-title">
+        ${title}
+      </div>
+
+      <p>${content}</p>
+
+    </div>
+
+    <div class="feed-post-footer">
+      Postim nga përdoruesi
+    </div>
+
+  </div>
+
+  `;
+
+  feed.insertAdjacentHTML('afterbegin',html);
+
+  document.getElementById('post-title').value='';
+  document.getElementById('post-content').value='';
+
+  document.getElementById('post-form').style.display='none';
+
+}
+
+</script>
+
+</body>
+</html>
